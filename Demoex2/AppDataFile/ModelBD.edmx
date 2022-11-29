@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище GromykoBD_2Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Agent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Type_Agent" Type="int" Nullable="false" />
+          <Property Name="Name" Type="text" />
+          <Property Name="Email" Type="text" />
+          <Property Name="Phone" Type="float" />
+          <Property Name="Image" Type="text" />
+          <Property Name="Adress" Type="nvarchar" MaxLength="255" />
+          <Property Name="Priority" Type="int" />
+          <Property Name="Boss" Type="nvarchar" MaxLength="255" />
+          <Property Name="INN" Type="float" />
+          <Property Name="KPP" Type="float" />
+          <Property Name="ID_History_Sales" Type="int" />
+        </EntityType>
+        <EntityType Name="Agent_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="History_Sales">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Products" Type="int" Nullable="false" />
+          <Property Name="id_Agent" Type="int" Nullable="false" />
+          <Property Name="Date_Realiz" Type="date" />
+          <Property Name="Count_Product" Type="float" />
+        </EntityType>
+        <EntityType Name="Product_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" />
+          <Property Name="ID_type" Type="int" Nullable="false" />
+          <Property Name="article" Type="int" />
+          <Property Name="mans" Type="int" />
+          <Property Name="number_ceha" Type="float" />
+          <Property Name="min_price" Type="money" />
+          <Property Name="description" Type="text" />
+          <Property Name="image" Type="text" />
+          <Property Name="razmer_ypakovki" Type="float" />
+          <Property Name="ves_bez" Type="float" />
+          <Property Name="ves_s" Type="float" />
+          <Property Name="servificate" Type="text" />
+          <Property Name="num_standart" Type="nvarchar" MaxLength="255" />
+          <Property Name="ID_history_product" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Agent_Agent_Type">
+          <End Role="Agent_Type" Type="Self.Agent_Type" Multiplicity="1" />
+          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent_Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="ID_Type_Agent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agent_History_Sales">
+          <End Role="History_Sales" Type="Self.History_Sales" Multiplicity="0..1" />
+          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="History_Sales">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="ID_History_Sales" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_History_Sales_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="History_Sales" Type="Self.History_Sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History_Sales">
+              <PropertyRef Name="id_Agent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_History_Sales_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="History_Sales" Type="Self.History_Sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="History_Sales">
+              <PropertyRef Name="id_Products" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Product_Type">
+          <End Role="Product_Type" Type="Self.Product_Type" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="ID_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище GromykoBD_2ModelContainer">
+          <EntitySet Name="Agent" EntityType="Self.Agent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Agent_Type" EntityType="Self.Agent_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="History_Sales" EntityType="Self.History_Sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Type" EntityType="Self.Product_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Agent_Agent_Type" Association="Self.FK_Agent_Agent_Type">
+            <End Role="Agent_Type" EntitySet="Agent_Type" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agent_History_Sales" Association="Self.FK_Agent_History_Sales">
+            <End Role="History_Sales" EntitySet="History_Sales" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Sales_Agent" Association="Self.FK_History_Sales_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="History_Sales" EntitySet="History_Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Sales_Products" Association="Self.FK_History_Sales_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="History_Sales" EntitySet="History_Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Product_Type" Association="Self.FK_Products_Product_Type">
+            <End Role="Product_Type" EntitySet="Product_Type" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GromykoBD_2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Agent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Type_Agent" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="Double" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Adress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="Int32" />
+          <Property Name="Boss" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="INN" Type="Double" />
+          <Property Name="KPP" Type="Double" />
+          <Property Name="ID_History_Sales" Type="Int32" />
+          <NavigationProperty Name="Agent_Type" Relationship="Self.FK_Agent_Agent_Type" FromRole="Agent" ToRole="Agent_Type" />
+          <NavigationProperty Name="History_Sales" Relationship="Self.FK_Agent_History_Sales" FromRole="Agent" ToRole="History_Sales" />
+          <NavigationProperty Name="History_Sales1" Relationship="Self.FK_History_Sales_Agent" FromRole="Agent" ToRole="History_Sales" />
+        </EntityType>
+        <EntityType Name="Agent_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agent" Relationship="Self.FK_Agent_Agent_Type" FromRole="Agent_Type" ToRole="Agent" />
+        </EntityType>
+        <EntityType Name="History_Sales">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Products" Type="Int32" Nullable="false" />
+          <Property Name="id_Agent" Type="Int32" Nullable="false" />
+          <Property Name="Date_Realiz" Type="DateTime" Precision="0" />
+          <Property Name="Count_Product" Type="Double" />
+          <NavigationProperty Name="Agent" Relationship="Self.FK_Agent_History_Sales" FromRole="History_Sales" ToRole="Agent" />
+          <NavigationProperty Name="Agent1" Relationship="Self.FK_History_Sales_Agent" FromRole="History_Sales" ToRole="Agent" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_History_Sales_Products" FromRole="History_Sales" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Product_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Products_Product_Type" FromRole="Product_Type" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ID_type" Type="Int32" Nullable="false" />
+          <Property Name="article" Type="Int32" />
+          <Property Name="mans" Type="Int32" />
+          <Property Name="number_ceha" Type="Double" />
+          <Property Name="min_price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="razmer_ypakovki" Type="Double" />
+          <Property Name="ves_bez" Type="Double" />
+          <Property Name="ves_s" Type="Double" />
+          <Property Name="servificate" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="num_standart" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ID_history_product" Type="Int32" />
+          <NavigationProperty Name="History_Sales" Relationship="Self.FK_History_Sales_Products" FromRole="Products" ToRole="History_Sales" />
+          <NavigationProperty Name="Product_Type" Relationship="Self.FK_Products_Product_Type" FromRole="Products" ToRole="Product_Type" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Agent_Agent_Type">
+          <End Role="Agent_Type" Type="Self.Agent_Type" Multiplicity="1" />
+          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent_Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="ID_Type_Agent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agent_History_Sales">
+          <End Role="History_Sales" Type="Self.History_Sales" Multiplicity="0..1" />
+          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="History_Sales">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="ID_History_Sales" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_History_Sales_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="History_Sales" Type="Self.History_Sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History_Sales">
+              <PropertyRef Name="id_Agent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_History_Sales_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="History_Sales" Type="Self.History_Sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="History_Sales">
+              <PropertyRef Name="id_Products" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Product_Type">
+          <End Role="Product_Type" Type="Self.Product_Type" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="ID_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GromykoBD_2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Agent" EntityType="Self.Agent" />
+          <EntitySet Name="Agent_Type" EntityType="Self.Agent_Type" />
+          <EntitySet Name="History_Sales" EntityType="Self.History_Sales" />
+          <EntitySet Name="Product_Type" EntityType="Self.Product_Type" />
+          <EntitySet Name="Products" EntityType="Self.Products" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_Agent_Agent_Type" Association="Self.FK_Agent_Agent_Type">
+            <End Role="Agent_Type" EntitySet="Agent_Type" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agent_History_Sales" Association="Self.FK_Agent_History_Sales">
+            <End Role="History_Sales" EntitySet="History_Sales" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Sales_Agent" Association="Self.FK_History_Sales_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="History_Sales" EntitySet="History_Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_History_Sales_Products" Association="Self.FK_History_Sales_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="History_Sales" EntitySet="History_Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Product_Type" Association="Self.FK_Products_Product_Type">
+            <End Role="Product_Type" EntitySet="Product_Type" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище GromykoBD_2ModelContainer" CdmEntityContainer="GromykoBD_2Entities">
+          <EntitySetMapping Name="Agent">
+            <EntityTypeMapping TypeName="GromykoBD_2Model.Agent">
+              <MappingFragment StoreEntitySet="Agent">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Type_Agent" ColumnName="ID_Type_Agent" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Boss" ColumnName="Boss" />
+                <ScalarProperty Name="INN" ColumnName="INN" />
+                <ScalarProperty Name="KPP" ColumnName="KPP" />
+                <ScalarProperty Name="ID_History_Sales" ColumnName="ID_History_Sales" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agent_Type">
+            <EntityTypeMapping TypeName="GromykoBD_2Model.Agent_Type">
+              <MappingFragment StoreEntitySet="Agent_Type">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="History_Sales">
+            <EntityTypeMapping TypeName="GromykoBD_2Model.History_Sales">
+              <MappingFragment StoreEntitySet="History_Sales">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="id_Products" ColumnName="id_Products" />
+                <ScalarProperty Name="id_Agent" ColumnName="id_Agent" />
+                <ScalarProperty Name="Date_Realiz" ColumnName="Date_Realiz" />
+                <ScalarProperty Name="Count_Product" ColumnName="Count_Product" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Type">
+            <EntityTypeMapping TypeName="GromykoBD_2Model.Product_Type">
+              <MappingFragment StoreEntitySet="Product_Type">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="GromykoBD_2Model.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="ID_type" ColumnName="ID_type" />
+                <ScalarProperty Name="article" ColumnName="article" />
+                <ScalarProperty Name="mans" ColumnName="mans" />
+                <ScalarProperty Name="number_ceha" ColumnName="number_ceha" />
+                <ScalarProperty Name="min_price" ColumnName="min_price" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="razmer_ypakovki" ColumnName="razmer_ypakovki" />
+                <ScalarProperty Name="ves_bez" ColumnName="ves_bez" />
+                <ScalarProperty Name="ves_s" ColumnName="ves_s" />
+                <ScalarProperty Name="servificate" ColumnName="servificate" />
+                <ScalarProperty Name="num_standart" ColumnName="num_standart" />
+                <ScalarProperty Name="ID_history_product" ColumnName="ID_history_product" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="GromykoBD_2Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
